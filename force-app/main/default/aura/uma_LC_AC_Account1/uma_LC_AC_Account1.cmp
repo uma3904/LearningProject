@@ -1,0 +1,182 @@
+<aura:component implements="force:appHostable" controller="uma_LC_AC_Account1">
+  
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/> 
+    <aura:attribute name="isModalOpenEdit" type="boolean" default="false"/> 
+    <aura:attribute name="isModalOpenDelete" type="boolean" default="false"/> 
+    
+    
+    
+        <aura:attribute name="isModalOpenError" type="boolean" default="false"/> 
+    
+    <aura:handler name="init" value="{!this}" action="{!c.getAllAccountsHandleClick}"/>
+    <aura:handler event="force:refreshView" action="{!c.isRefreshed}" />
+    
+    
+    
+    <aura:if isTrue="{!v.isModalOpen}">
+        
+        <div>
+            <section role="dialog" tabindex="-1" aria-label="Meaningful description of the modal content" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.closeBtn}">
+                            <lightning:icon iconName="utility:close" size="small" variant="neutral"/>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                    </header>
+                    
+                    <div class="slds-modal__content slds-p-around_medium alignLeft" id="modal-content-id-1">
+                        <p>Clicked Account Details are </p>
+                        
+                        <!--   {!v.accountid_Attribute}
+                        {!v.uma}-->
+                        
+                        <lightning:recordViewForm recordId="{!v.accountid_Attribute}" objectApiName="Account">
+                            <div class="slds-box">
+                                <lightning:outputField fieldName="Name" />
+                                <lightning:outputField fieldName="Id" />
+                                <lightning:outputField fieldName="AccountNumber" />
+                                <lightning:outputField fieldName="site" />
+                                <lightning:outputField fieldName="Accountsource" />
+                            </div>
+                        </lightning:recordViewForm>
+                        
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning:button label="Ok"
+                                          variant="brand" class="slds-m-top--medium"
+                                          onclick="{!c.yesBtn}"/>
+                        
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </aura:if>
+    
+    <aura:if isTrue="{!v.isModalOpenEdit}">
+        
+        <div>
+            <section role="dialog" tabindex="-1" aria-label="Meaningful description of the modal content" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.closeBtn}">
+                            <lightning:icon iconName="utility:close" size="small" variant="neutral"/>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                    </header>
+                    
+                    <div class="slds-modal__content slds-p-around_medium alignLeft" id="modal-content-id-1">
+                        <p>Clicked Account Details edit </p>
+                        
+                        <!--   {!v.accountid_Attribute}
+                        {!v.uma}
+                        onsuccess="{!v.handleSuccess}"
+       												 onsubmit="{!v.handleSubmit}" -->
+                        
+                        <lightning:recordEditForm recordId="{!v.accountid_Attribute}" objectApiName="Account"
+                                               aura:id="accUmaForm"  
+                                                >
+                              <lightning:messages />
+                            <div class="slds-box">
+                                <lightning:inputField fieldName="Name" />
+                                <lightning:inputField fieldName="Id" />
+                                <lightning:inputField fieldName="AccountNumber" />
+                                <lightning:inputField fieldName="site" />
+                                <lightning:inputField fieldName="Accountsource" />
+                            </div>
+                        </lightning:recordEditForm>
+                        
+                    </div>
+                    <footer class="slds-modal__footer">
+                                              
+                         <lightning:button
+            class="slds-m-top_small"
+            variant="brand"
+            type="submit"
+            name="update"
+            label="Update"
+                                           onclick="{!c.handleCreateOrUpdateAccount}"/>
+                        
+                           <lightning:button
+            class="slds-m-top_small"
+            variant="brand"         
+            name="cancel"
+            label="Cancel"
+                                           onclick="{!c.handleCreateOrUpdateAccountCancel}"/>
+                        
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </aura:if>
+    {!v.uma}
+    <aura:if isTrue="{!v.isModalOpenDelete}">
+        
+        <div>
+            <section role="dialog" tabindex="-1" aria-label="Meaningful description of the modal content" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.closeBtn}">
+                            <lightning:icon iconName="utility:close" size="small" variant="neutral"/>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                    </header>
+                    
+                    <div class="slds-modal__content slds-p-around_medium alignLeft" id="modal-content-id-1">
+                        <p>are you sure you want delete Account </p>
+                        
+                        <!--   {!v.accountid_Attribute}
+                        {!v.uma}-->
+                        
+                        
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning:button label="Yes"   value="{!v.deleteId_attribute}"
+                                          variant="brand" class="slds-m-top--medium"
+                                          onclick="{!c.yesDeleteButton}"/>
+                        
+                        <lightning:button label="No"
+                                          variant="brand" class="slds-m-top--medium"
+                                          onclick="{!c.noDeleteButton}"/>
+                        
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </aura:if>
+    
+    
+    <aura:if isTrue="{!v.isModalOpenError}">
+          <div>
+            <section role="dialog" tabindex="-1" aria-label="Meaningful description of the modal content" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.closeBtn}">
+                            <lightning:icon iconName="utility:close" size="small" variant="neutral"/>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                    </header>
+                    
+                    <div class="slds-modal__content slds-p-around_medium alignLeft" id="modal-content-id-1">
+                        <p>ErrorOccured : <div  style="color:red;">{!v.uma}  </div>  </p>
+                        
+                    
+                        
+                    </div>
+                    <footer class="slds-modal__footer">
+                    
+                        <lightning:button label="Cancel"
+                                          variant="brand" class="slds-m-top--medium"
+                                          onclick="{!c.cancelDeleteButton}"/>
+                        
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </aura:if> 
+    
+</aura:component>
